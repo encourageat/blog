@@ -106,10 +106,10 @@ Selected "User Federation" from left pane. Slected "Add LDAP provider". Slected 
 
 Specified Bind type as simple (default one) , Bind DN as uid=admin,ou=system and the Bind credentials as secret (which I guess is the default password). I have faced initially error on "Test Authentication". I have again downloaded the then latest Keycloak version (22.0.4) and tried again with that. My JAVA_HOME had an incorrect value. Fixed that and I was able to successfully "Test Authentication" though I am not sure why it did not work before.
 
-Did the following as well prior to synchronizing users.
-Edit mode as READ ONLY
-User DN specified as ou=system
-Search Scope as Sub Tree 
+Did the following as well prior to synchronizing users.  
+Edit mode as READ ONLY  
+User DN specified as ou=system  
+Search Scope as Sub Tree   
 
 
 Saved the settings.
@@ -120,15 +120,16 @@ Synchronized the users in LDAP successfully using the option as shown in the pic
 --->
 
 Found that the users were added successfully to my realm.
+
 <!---
 Now I need to check the authentication to the my realm using the following URL
-
-```
 http://localhost:8080/realms/encourageat/account
-```
+
 My realm name is ecourageat and Keycloak was running at localhost:8080. You should be substituting the correct realm name in the above URL and if Keycloak is running on URL other than localhost:8080, substitute that as well.
 --->
-I did this for educational purpose and I do not want KeyCloak to look at my Apache DS henceforth, since I won't be running Ubuntu instance every time. So I have disabled my new provider and afterwards, Keycloak has converted all ldap users to "Disabled" status. They will be back only when I enable the provider..
+
+I did this for educational purpose and I do not want KeyCloak to look at my Apache DS henceforth, since I won't be running Ubuntu instance every time. So I have disabled my new provider and afterwards, Keycloak has converted all ldap users to "Disabled" status. They will be back only when I enable the provider.
+
 <!---
 Reference:   
 https://medium.com/keycloak/apache-ds-ldap-as-user-federation-in-keycloak-5978838d53c0
