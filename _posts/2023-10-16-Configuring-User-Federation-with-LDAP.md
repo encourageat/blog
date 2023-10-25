@@ -124,9 +124,8 @@ Batch size as 5 (I had only few users in LDAP)
 Saved the settings.
 
 Synchronized the users in LDAP successfully using the option as shown in the picture below. I had attributes for my users for mail (email) in Apache DS, which I had created while creating users there. That is optional only, I guess.
-<!---
-![User Federation](./iam-keycloak/userfed.png)
---->
+
+![User-Federation](../../../../../iam/keycloak/userfedn.png)
 
 Found that the users were added successfully to my realm.
 
