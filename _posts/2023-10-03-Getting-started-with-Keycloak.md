@@ -18,7 +18,7 @@ The downloads are available [here](https://www.keycloak.org/downloads). I have d
 ```
 C:\keycloak-21.1.1\bin>kc.bat start-dev
 ```
-Wait for Keycloak to start and once its completed access admin console using http://localhost:8080/admin. The default user name is "admin". You may wonder that we did not install a database prior to getting started with Keycloak and where the default values are stored. Keycloak comes with a embedded H2 database. When we want to configure Keycloak for production usage, we could set up a database such as Postgres and make Keycloak's configurations point to it. It supports other databases too.
+Wait for Keycloak to start and once its completed access Keycloak using http://localhost:8080. My Keycloak was running on localhost:8080 and hence I gave the above URL.Create the first admin user and set a password using the options in the page ("Create User" link) you got while accessing http://localhost:8080. The default user name I gave was "admin" and I have accessed administration console link after that and got successfully logged into Keycloak with the credentials I set in previous step. You may wonder that we did not install a database prior to getting started with Keycloak and where the default values are stored. Keycloak comes with a embedded H2 database. When we want to configure Keycloak for production usage, we could set up a database such as Postgres and make Keycloak's configurations point to it. It supports other databases too.
 
 When you have accessed the previous URL, you may notice that the URL is changed (redirected) in the browser. In my case it was displaying something as below.
 ```
