@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "User federation with LDAP"
+title:  "User federation in Keycloak with LDAP"
 date:   2023-10-24 19:41:42 +0530
 categories: IAM Keycloak
 ---
