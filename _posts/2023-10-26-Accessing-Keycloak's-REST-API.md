@@ -43,9 +43,13 @@ You should be substituting your user name, password, realm name at the above URL
 But the privileges with this access token is far less than previous access token got through the super admin account. One reason is that the user in our realm lags many roles a super user in master realm will have.
 
 Take out the access token from the first call (when we used master realm and super admin account) and use it further for User API calls. I am not sure the access token got by a realm user will work to create a user. In my case I am using the token got for super admin.
- 
+
+Now we will create a new user at our realm with the access token created for super admin of master realm. Not that he is in the enabled state and he is capable of login in to the realm once created.
+
+**Creatin a new user**
+
 ```
-curl -H "Authorization: bearer SPECIFY_ACCESS_TOKEN" -H "Content-Type: application/json" --data '{"username":"Joe.Doe","enabled":true,"firstName":"Joe","lastName":"Doe","credentials":[{"type":"password","value":"complexpassword1$"}]}' http://localhost:8080/admin/realms/REALM_NAME/users
+curl -H "Authorization: bearer SPECIFY_ACCESS_TOKEN" -H "Content-Type: application/json" --data '{"username":"John.Doe","enabled":true,"firstName":"John","lastName":"Doe","credentials":[{"type":"password","value":"complexpassword1$"}]}' http://localhost:8080/admin/realms/REALM_NAME/users
 ```
 Substitute the access token and realm name in the above URL. Sometimes I got unauthorized error and sometimes I got unknown error with the above call. Unauthorized error probably was coming because my access token time out was 1 minute and it probably took more than one minute to complete my curl requests. After resolving the timing issue, I got consistently unknow error. So I have restated keycloak with DEBUG log enabled to know better on te cause of the error. You may skip reading furter if your request is success. It can appen on non Windows platform.
 
@@ -61,7 +65,7 @@ You can locate keycloak logs at keycloak_root/data/log. Got some clue why was th
 As per one of the answer in the link over [here](https://stackoverflow.com/questions/31503754/errormessagesunexpected-character-code-39-expected-a-valid-value) I have changed the single quotes to double quotes and inner double quotes was substituted with three double quotes as below. (I am on windows)
 
 ```
-curl -H "Authorization: bearer SPECIFY_ACCESS_TOKEN" -H "Content-Type: application/json" --data "{"""username""":"""Joe.Doe""","""enabled""":true,"""firstName""":"""Joe""","""lastName""":"""Doe""","""credentials""":[{"""type""":"""password""","""value""":"""complexpassword1$"""}]}" http://localhost:8080/admin/realms/REALM_NAME/users
+curl -H "Authorization: bearer SPECIFY_ACCESS_TOKEN" -H "Content-Type: application/json" --data "{"""username""":"""John.Doe""","""enabled""":true,"""firstName""":"""John""","""lastName""":"""Doe""","""credentials""":[{"""type""":"""password""","""value""":"""complexpassword1$"""}]}" http://localhost:8080/admin/realms/REALM_NAME/users
 ```
 Make sure you specify valid access token and your REALM_NAME in the above URL.
 The call will create a new user at your realm and he will be capable of logging into the realm.
