@@ -253,5 +253,222 @@ a5eab27fdd8d   none                           null      local
 C:\Docker>
 ```
 
+Docker swarm
+
+```
+C:\dockerswarm>docker swarm init
+Swarm initialized: current node (ssgpmk7yrbs2ipt09hsgf4ciu) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-2k9we4mbyie8ebd4qd07er1b0nnq5ykkd12kqpo047pqhhapd5-7yk03er9azb5vf6s3hsjiohky 192.168.65.3:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
+
+```
+Above creates a node as master node and worker node
+
+Below is for verifying swarm status
+
+```
+docker info
+```
+
+List all the nodes   
+
+```
+C:\dockerswarm>docker node ls
+ID                            HOSTNAME         STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+ssgpmk7yrbs2ipt09hsgf4ciu *   docker-desktop   Ready     Active         Leader           24.0.7
+
+C:\dockerswarm>
+```
+
+Leave the single running node (that is the master node)
+
+```
+C:\dockerswarm>docker swarm leave --force
+Node left the swarm.
+```
+
+Single master node and multiple worker nodes (need more VMs)
+
+docker swarm init --advertise-addr <MANAGER_IP>   
+
+```
+C:\dockerswarm>docker swarm init --advertise-addr 127.0.0.1
+Swarm initialized: current node (ncs8npk4pozztm1k73t1gl91t) is now a manager.
+
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-47m4namcbhlmq5oxvkzr0ma5mufwzux4udh0w1m71fl15n8ivr-9ylo5zyuuyrzxdfagqhkyzhlz 127.0.0.1:2377
+
+To add a manager to this swarm, run 'docker swarm join-token manager' and follow the instructions.
 
 
+C:\dockerswarm>docker node ls
+ID                            HOSTNAME         STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+ncs8npk4pozztm1k73t1gl91t *   docker-desktop   Ready     Active         Leader           24.0.7
+```
+
+Extract from "docker info" command
+
+```
+ Swarm: active
+  NodeID: ncs8npk4pozztm1k73t1gl91t
+  Is Manager: true
+  ClusterID: oflh8yvznrlu0uh2grk4kals2
+  Managers: 1
+  Nodes: 1
+  Default Address Pool: 10.0.0.0/8
+  SubnetSize: 24
+  Data Path Port: 4789
+  Orchestration:
+   Task History Retention Limit: 5
+  Raft:
+  ```
+
+  To get the worker node add details   
+
+  ```
+  C:\dockerswarm>docker swarm join-token worker
+To add a worker to this swarm, run the following command:
+
+    docker swarm join --token SWMTKN-1-47m4namcbhlmq5oxvkzr0ma5mufwzux4udh0w1m71fl15n8ivr-9ylo5zyuuyrzxdfagqhkyzhlz 127.0.0.1:2377
+C:\dockerswarm>
+```
+
+Running service...
+
+```
+C:\>docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+C:\>docker service ls
+ID        NAME      MODE      REPLICAS   IMAGE     PORTS
+
+C:\>docker service create --name web-site --replicas 1 --publish 80:80 nginx:latest
+xo6j8qm0lac9hy5yhmkqjzjmc
+overall progress: 1 out of 1 tasks
+1/1: running   [==================================================>]
+verify: Service converged
+
+C:\>docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+cdaaae5cb8d8   nginx:latest   "/docker-entrypoint.…"   22 seconds ago   Up 16 seconds   80/tcp    web-site.1.dnp10nmv3abr3osjypusujlm3
+
+C:\>docker service ls
+ID             NAME       MODE         REPLICAS   IMAGE          PORTS
+xo6j8qm0lac9   web-site   replicated   1/1        nginx:latest   *:80->80/tcp
+
+C:\>
+```
+
+Docker swarm starts a new container even though forcefully stopped one as shown below
+
+```
+C:\>docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+cdaaae5cb8d8   nginx:latest   "/docker-entrypoint.…"   13 minutes ago   Up 13 minutes   80/tcp    web-site.1.dnp10nmv3abr3osjypusujlm3
+
+C:\>docker rm -f cdaaae5cb8d8
+cdaaae5cb8d8
+
+C:\>docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+C:\>docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS         PORTS     NAMES
+cfbdaccde7e3   nginx:latest   "/docker-entrypoint.…"   10 seconds ago   Up 2 seconds   80/tcp    web-site.1.44j0r4k56t6s4xrerg7i7380r
+
+C:\>
+```
+
+Now trying to stop service..
+All containers in replicas will be stopped
+
+```
+C:\>docker node ls
+ID                            HOSTNAME         STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+ncs8npk4pozztm1k73t1gl91t *   docker-desktop   Ready     Active         Leader           24.0.7
+
+C:\>docker service ls
+ID             NAME       MODE         REPLICAS   IMAGE          PORTS
+xo6j8qm0lac9   web-site   replicated   1/1        nginx:latest   *:80->80/tcp
+
+C:\>docker ps
+CONTAINER ID   IMAGE          COMMAND                  CREATED          STATUS          PORTS     NAMES
+cfbdaccde7e3   nginx:latest   "/docker-entrypoint.…"   51 minutes ago   Up 51 minutes   80/tcp    web-site.1.44j0r4k56t6s4xrerg7i7380r
+
+C:\>docker service rm web-site
+web-site
+
+C:\>docker service ls
+ID        NAME      MODE      REPLICAS   IMAGE     PORTS
+
+C:\>docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+
+C:\>docker node ls
+ID                            HOSTNAME         STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+ncs8npk4pozztm1k73t1gl91t *   docker-desktop   Ready     Active         Leader           24.0.7
+
+C:\>
+```
+
+Inspect...
+
+```
+C:\>docker service ls
+ID             NAME       MODE         REPLICAS   IMAGE          PORTS
+n9nx7zsg9hw4   web-site   replicated   1/1        nginx:latest   *:80->80/tcp4
+
+C:\>docker service inspect --pretty n9nx7zsg9hw4
+
+ID:             n9nx7zsg9hw4fg4r8wxn6qzz6
+Name:           web-site
+Service Mode:   Replicated
+ Replicas:      1
+Placement:
+UpdateConfig:
+ Parallelism:   1
+ On failure:    pause
+ Monitoring Period: 5s
+ Max failure ratio: 0
+ Update order:      stop-first
+RollbackConfig:
+ Parallelism:   1
+ On failure:    pause
+ Monitoring Period: 5s
+ Max failure ratio: 0
+ Rollback order:    stop-first
+ContainerSpec:
+ Image:         nginx:latest@sha256:4c0fdaa8b6341bfdeca5f18f7837462c80cff90527ee35ef185571e1c327beac
+ Init:          false
+Resources:
+Endpoint Mode:  vip
+Ports:
+ PublishedPort = 80
+  Protocol = tcp
+  TargetPort = 80
+  PublishMode = ingress
+
+
+C:\>
+
+```
+
+Docker service ps id/name => Give details of all replicas
+
+```
+
+C:\>docker service ls
+ID             NAME       MODE         REPLICAS   IMAGE          PORTS
+n9nx7zsg9hw4   web-site   replicated   1/1        nginx:latest   *:80->80/tcp
+
+C:\>docker service ps web-site
+ID             NAME         IMAGE          NODE             DESIRED STATE   CURRENT STATE           ERROR     PORTS
+yu8fohg4hxg8   web-site.1   nginx:latest   docker-desktop   Running         Running 9 minutes ago
+
+C:\>
+```
