@@ -5,11 +5,11 @@ date:   2024-01-15 19:41:42 +0530
 categories: IAM Keycloak
 ---
 
-When I have started using Keycloak, I started with zip distribution of version 21.1.1 (the latest at that time) and had its dependency OpenJDK 17 (minimum required version) already installed. Just three months over and now the latest version is 23.0.3. I wanted to use Docker image in my further learning on Keycloak and this blog relates to that..
+When I have started using Keycloak, I started with zip distribution of version 21.1.1 (the latest at that time) and I had its dependency OpenJDK 17 (minimum required version) already installed in my system. Just three months over and now the latest version is 23.0.3. I wanted to use docker image in my further learning on Keycloak and this blog relates to that..
 
-My personal laptop is Windows 11 and virtualisation was by default enabled. I guess , running Dokcer require minimum Windows 10 and if we are on prior versions you may find some other tools as pre-reqisites for Docker.
+My personal laptop is on Windows 11 and virtualisation was by default enabled. I guess , running Dokcer require minimum Windows 10 and if we are on prior versions you may find some other tools as pre-reqisites for Docker.
 
-I have downloaded Docker Desktop Installer for Windows and the installation of it did not create any issues. Started Docker Desktop from the icon installer created  on taskbar. I prefer the command line options of Docker, but I guess the Docker Desktop window still should be launched for smooth working with docker commands. I faced an error when it was not running.
+I have downloaded Docker Desktop Installer for Windows and the installation of it did not create any issues. Started Docker Desktop from the icon installer created  on taskbar. I prefer the command line options of Docker, but I noticed the Docker Desktop window should be launched for smooth working with docker commands. I faced an error when it was not running.
 
 Unlike virtual machines, docker run on the same OS kernel but have separate filesystems, processes, and network stacks. We will just jump into starting Keycloak quickly.
 
@@ -20,7 +20,7 @@ To pull the Keycloak version 23.0.3, we can use the following docker command fro
 ```
 docker pull quay.io/keycloak/keycloak:23.0.3
 ```
-To pull a different version specify replace the version 23.0.3 with the desired value in the above command. Omiiting version will always pull the latest image. 
+To pull a different version sreplace the version 23.0.3 in the command above with the desired value in the above command. Omiiting version will always pull the latest image. 
 
 Example:
 ```
@@ -39,7 +39,7 @@ We will explore three options in this blog
 
 - Keycloak in developer mode started using docker command
 - Keycloak in developer mode started using docker-compose command and uses H2 database (default)
-- Keycloak in developer moded started using docker-compose and connected to a postgres database running in the same network
+- Keycloak in developer moded started using docker-compose and connected to a postgres database running on the same network
 
 **Keycloak in developer mode started using docker command**
 
@@ -74,7 +74,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 
 **Keycloak in developer mode started using docker-compose command and uses H2 database (default)**
 
-The command docker-compose is available when Docker Desktop Installer is installed. It supports specifying one or more container images in a YAML file and helps for easy start. The YAML file u can create in Visual Studio Code or some other text editor.
+The command docker-compose is available when Docker Desktop Installer is installed. It supports specifying one or more container images in a YAML file and helps for easy start. The YAML file you can create in Visual Studio Code or some other text editor.
 
 Contents of docker-compose.yml (In my case I have saved under C:\Docker directory)  
 
@@ -106,7 +106,7 @@ networks:
     driver: bridge
 ```
 
-In the above I had specified mapped port as 9095 and gave a admin password as 
+In the above, I had specified mapped port as 9095 and gave a admin password as 
 admin. I am pulling the latest Keycloak image (although its advisable to specify version to be sure that you are getting the version you want)
 
 For running in detached mode use the command
@@ -140,7 +140,7 @@ CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 C:\Docker>
 ```
 
-With the below command we actually stopped the container in docker-compose.yml
+With the below command we actually stopped the container deployed through docker-compose.yml
 ```
 docker-compose -f docker-compose.yml down
 ```
@@ -201,7 +201,7 @@ services:
 ```
 The entry depends_on was to make sure postgres is started before Keycloak. As done before access the admin URL with the correct port and credentials after running docker-compose as done in previous steps.
 
-Otutput of "docker ps"
+Output of "docker ps"
 
 ```
 C:\Docker>docker ps
