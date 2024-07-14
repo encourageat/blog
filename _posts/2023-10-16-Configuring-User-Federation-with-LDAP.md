@@ -18,6 +18,8 @@ There is User Provisioning SPI (Service Provider Interface), through which a non
 
 For the demo, I will be using the Apache DS directory server. My original intention was to install it on Windows, but found that Apache DS installation (as of now) does not start properly when using Java 16+
 
+Update: This I have done prior to making use of docker image of Keycloak. The conflict of jre versions I could have avoided if I had used docker image of Keycloak that will run in its own container. Keycloak docker image comes with the desired version of Java.
+
 For Keycloak I am using Open JDK 17. So I have relied on an Unbutu system running on my Windows to install Apache DS there. It was setup some time back, by leveraging the options to install Linux system on Windows.
 
 At Ubuntu I have installed the Java 11. Java is a pre-requisite for Apache DS.

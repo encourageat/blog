@@ -51,7 +51,7 @@ Now we will create a new user at our realm with the access token created for sup
 ```
 curl -H "Authorization: bearer SPECIFY_ACCESS_TOKEN" -H "Content-Type: application/json" --data '{"username":"John.Doe","enabled":true,"firstName":"John","lastName":"Doe","credentials":[{"type":"password","value":"complexpassword1$"}]}' http://localhost:8080/admin/realms/REALM_NAME/users
 ```
-Substitute the access token and realm name in the above URL. Sometimes I got unauthorized error and sometimes I got unknown error with the above call. Unauthorized error probably was coming because my access token time out was 1 minute and it probably took more than one minute to complete my curl requests. After resolving the timing issue, I got consistently unknow error. So I have restated keycloak with DEBUG log enabled to know better on te cause of the error. You may skip reading furter if your request is success. It can appen on non Windows platform.
+Substitute the access token and realm name in the above URL. Sometimes I got unauthorized error and sometimes I got unknown error with the above call. Unauthorized error probably was coming because my access token time out was 1 minute and it probably took more than one minute to complete my curl requests. After resolving the timing issue, I got consistently unknow error. So I have restated keycloak with DEBUG log enabled to know better on the cause of the error. You may skip reading furter if your request is success. It can happen on non Windows platform.
 
 **Re-starting keycloak with DEBUG logs enabled**
 
