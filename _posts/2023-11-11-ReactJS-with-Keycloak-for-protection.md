@@ -40,7 +40,7 @@ Select the PKCE challenge method as follows.
 
 ![PKCKE challenge method](../../../../../iam/keycloak/pkce.png)
 
-**Integrating client adapter with hReactJS application**
+**Integrating client adapter with ReactJS application**
 
 Create ReactJS application
 
@@ -71,7 +71,7 @@ Before the coding let us look how it works
 A random code verifier is generated for each request. Using SHA256 (we had selected S256 as the challenge method while creating clientid) the code verifier is converted to a hash form. The resultant value is termed as code challenge. In the diagram below, it is shown as transformed code verifier (t(code_verifier)) and challenge method as t_m (for us its S256).
 
 ![PKCKE flow](../../../../../iam/keycloak/pixy.png)
-Code challenge and challenge method are passed in the first flow which is the authorization end point flow. An authorization code is returned after a successful authentication. A silent request is then carried with actual code verifier to the token endpoint of Keycloak. Keycloak will do the hashing using challenge method(our case S256) and compare against the code challenge in the first flow. If its same, the request is from genuine client.
+The Code challenge and challenge method are passed in the first flow which is the authorization end point flow. An authorization code is returned after a successful authentication. A silent request is then carried with actual code verifier to the token endpoint of Keycloak. Keycloak will do the hashing using challenge method (our case S256) and compare against the code challenge in the first flow. If its same, the request is from genuine client.
 
 **Code changes**
 
