@@ -1,6 +1,7 @@
 ---
 layout: post
 title:  "Getting Started with Kubernetes"
+published: false
 date:   2024-03-31 01:41:42 +0530
 categories: Technical
 ---
